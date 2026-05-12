@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { CreditCard, Wrench, PackageCheck, ClipboardCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+// Assets imports
+import homeImg from '../assets/home.png';
+import maintainceImg from '../assets/maintaince.png';
+import trusryImg from '../assets/trusry.png';
+import reportsImg from '../assets/reports.png';
+
 export function InteractiveTour() {
   const [activeTab, setActiveTab] = useState(0);
   const { t } = useTranslation();
@@ -13,28 +19,32 @@ export function InteractiveTour() {
       title: t('tour.tab.cashier.title'),
       icon: <CreditCard className="w-5 h-5" />,
       description: t('tour.tab.cashier.desc'),
-      mockupBg: "from-blue-500/20 to-transparent"
+      mockupBg: "from-blue-500/20 to-transparent",
+      image: homeImg
     },
     {
       id: 1,
       title: t('tour.tab.maintenance.title'),
       icon: <Wrench className="w-5 h-5" />,
       description: t('tour.tab.maintenance.desc'),
-      mockupBg: "from-[var(--color-takka-gold)]/20 to-transparent"
+      mockupBg: "from-[var(--color-takka-gold)]/20 to-transparent",
+      image: maintainceImg
     },
     {
       id: 2,
       title: t('tour.tab.inventory.title'),
       icon: <PackageCheck className="w-5 h-5" />,
       description: t('tour.tab.inventory.desc'),
-      mockupBg: "from-purple-500/20 to-transparent"
+      mockupBg: "from-purple-500/20 to-transparent",
+      image: trusryImg
     },
     {
       id: 3,
       title: t('tour.tab.reports.title'),
       icon: <ClipboardCheck className="w-5 h-5" />,
       description: t('tour.tab.reports.desc'),
-      mockupBg: "from-green-500/20 to-transparent"
+      mockupBg: "from-green-500/20 to-transparent",
+      image: reportsImg
     }
   ];
 
@@ -70,7 +80,7 @@ export function InteractiveTour() {
                  <div className="mx-auto text-xs text-muted-foreground">{tabs[activeTab].title} - Takka System</div>
                </div>
                
-               <div className="flex-1 p-6 relative">
+               <div className="flex-1 relative overflow-hidden bg-card/50">
                  <AnimatePresence mode="wait">
                     <motion.div
                       key={activeTab}
@@ -78,16 +88,13 @@ export function InteractiveTour() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.98 }}
                       transition={{ duration: 0.4 }}
-                      className="h-full flex flex-col justify-center items-center text-center px-8"
+                      className="absolute inset-0 flex items-center justify-center"
                     >
-                      <div className="w-20 h-20 rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-6 text-[var(--color-takka-gold)]">
-                        {tabs[activeTab].icon}
-                      </div>
-                      <h3 className="text-2xl font-bold text-foreground mb-4">{tabs[activeTab].title}</h3>
-                      <p className="text-lg text-muted-foreground">{tabs[activeTab].description}</p>
-                      
-                      {/* Highlight Spotlight effect */}
-                      <div className="absolute w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
+                      <img 
+                        src={tabs[activeTab].image} 
+                        alt={tabs[activeTab].title}
+                        className="w-full h-full object-cover object-left-top"
+                      />
                     </motion.div>
                  </AnimatePresence>
                </div>
