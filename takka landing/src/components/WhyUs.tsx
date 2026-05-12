@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import { Zap, Layers, PenTool, HeadphonesIcon, Server } from "lucide-react";
+import branchesImg from '../assets/branches.png';
 
 export function WhyUs() {
   const { t } = useTranslation();
@@ -56,7 +57,7 @@ export function WhyUs() {
           >
             <div className="relative z-10 rounded-2xl overflow-hidden border border-border/50 shadow-xl">
               <img 
-                src="https://picsum.photos/seed/workspace/800/800" 
+                src={branchesImg} 
                 alt="Workspace" 
                 className="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
