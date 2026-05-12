@@ -1,50 +1,130 @@
-import { Facebook, MessageCircle, Instagram } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "./ThemeProvider";
+import { Moon, Sun, Globe, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import logoImg from '../assets/logo.png';
 
-export function Footer() {
-  const currentYear = new Date().getFullYear();
-  const { t } = useTranslation();
+export function Navbar() {
+  const { t, i18n } = useTranslation();
+  const { theme, setTheme } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'ar' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
+  useEffect(() => {
+    document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { href: "#features", label: t('nav.features') },
+    { href: "#tour", label: t('nav.tour') },
+    { href: "#why-us", label: t('nav.whyUs') },
+    { href: "#pricing", label: t('nav.pricing') },
+  ];
 
   return (
-    <footer className="bg-background pt-16 pb-8 border-t border-border rtl:text-right ltr:text-left">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-b border-border pb-8 mb-8">
-           
-           {/* Branding */}
-           <div className="flex flex-col md:items-start items-center gap-4 text-center ltr:md:text-left rtl:md:text-right">
-              <div className="flex items-center gap-3 select-none">
-                <img src="/logo.png" alt="Takka Logo" className="h-12 w-auto object-contain rounded-xl shadow-lg border border-border/50" />
-              </div>
-              <p className="text-muted-foreground text-sm max-w-xs">{t('footer.desc')}</p>
-           </div>
-           
-           {/* Links */}
-           <div className="flex flex-wrap justify-center gap-8 text-sm font-medium text-foreground/80">
-              <a href="#" className="hover:text-[var(--color-takka-gold)] transition-colors">{t('footer.links.privacy')}</a>
-              <a href="#" className="hover:text-[var(--color-takka-gold)] transition-colors">{t('footer.links.terms')}</a>
-              <a href="https://wa.me/201037230660" target="_blank" className="hover:text-[var(--color-takka-gold)] transition-colors flex items-center gap-1"><MessageCircle size={14}/> {t('footer.links.sales')}</a>
-           </div>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-sm py-2' : 'bg-transparent py-4'}`}>
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        <a href="#" className="flex items-center group transition-transform hover:scale-105">
+          <img src={logoImg} alt="Takka Logo" className="h-14 w-auto object-contain rounded-xl shadow-lg" />
+        </a>
 
-           {/* Socials */}
-           <div className="flex gap-4">
-               <a href="https://www.facebook.com/profile.php?id=61574502873321" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors border border-border">
-                 <Facebook size={18} />
-               </a>
-               <a href="https://www.instagram.com/takka_techs/" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:text-white transition-colors border border-border">
-                 <Instagram size={18} />
-               </a>
-               <a href="https://wa.me/201037230660" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-colors border border-border">
-                 <MessageCircle size={18} />
-               </a>
-           </div>
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex items-center gap-8 text-sm font-medium">
+          {navLinks.map((link) => (
+            <a key={link.href} href={link.href} className="text-muted-foreground hover:text-[var(--color-takka-gold)] transition-colors">
+              {link.label}
+            </a>
+          ))}
         </div>
-        
-        <div className="text-center text-sm text-muted-foreground flex flex-col md:flex-row items-center justify-center gap-2">
-          <span>&copy; {currentYear} {t('footer.copy')}</span>
-          <span className="hidden md:inline">|</span>
-          <span className="flex items-center gap-1">{t('footer.made')} <span className="text-red-500 text-lg leading-none">♥</span> {t('footer.egypt')}</span>
+
+        <div className="hidden lg:flex items-center gap-2">
+          <Button variant="ghost" size="icon" onClick={toggleLanguage} aria-label="Toggle Language" className="text-muted-foreground hover:text-[var(--color-takka-gold)]">
+            <Globe className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            aria-label="Toggle Theme"
+            className="text-muted-foreground hover:text-[var(--color-takka-gold)]"
+          >
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          </Button>
+          <Button onClick={() => window.open('#', '_blank')} variant="outline" className="ml-4 border-[var(--color-takka-gold)] text-[var(--color-takka-gold)] hover:bg-[var(--color-takka-gold)] hover:text-[var(--color-takka-navy)] transition-colors rounded-full px-6">
+            {t('nav.download')}
+          </Button>
+          <Button onClick={() => window.open('https://wa.me/201037230660', '_blank')} className="rtl:mr-2 ltr:ml-2 bg-[var(--color-takka-gold)] text-[var(--color-takka-navy)] hover:bg-foreground hover:text-background transition-colors rounded-full px-6 font-bold">
+            {t('nav.contact')}
+          </Button>
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <div className="lg:hidden flex items-center gap-2">
+          <Button variant="ghost" size="icon" onClick={toggleLanguage} aria-label="Toggle Language">
+            <Globe className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            aria-label="Toggle Theme"
+          >
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </Button>
         </div>
       </div>
-    </footer>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden bg-background border-b border-border overflow-hidden"
+          >
+            <div className="flex flex-col px-4 py-6 gap-4">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.href} 
+                  href={link.href} 
+                  className="text-lg font-medium text-muted-foreground hover:text-[var(--color-takka-gold)] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Button onClick={() => window.open('#', '_blank')} variant="outline" className="w-full mt-2 border-[var(--color-takka-gold)] text-[var(--color-takka-gold)] hover:bg-[var(--color-takka-gold)] hover:text-[var(--color-takka-navy)] rounded-full">
+                {t('nav.download')}
+              </Button>
+              <Button onClick={() => window.open('https://wa.me/201037230660', '_blank')} className="w-full bg-[var(--color-takka-gold)] text-[var(--color-takka-navy)] hover:bg-foreground hover:text-background rounded-full font-bold">
+                {t('nav.contact')}
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 }
