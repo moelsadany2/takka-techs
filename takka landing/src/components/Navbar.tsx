@@ -115,7 +115,7 @@ export function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <Button onClick={() => window.open('#', '_blank')} variant="outline" className="w-full mt-2 border-[var(--color-takka-gold)] text-[var(--color-takka-gold)] hover:bg-[var(--color-takka-gold)] hover:text-[var(--color-takka-navy)] rounded-full">
+              <Button onClick={() => window.open('https://tinyurl.com/takkatechs', '_blank')} variant="outline" className="w-full mt-2 border-[var(--color-takka-gold)] text-[var(--color-takka-gold)] hover:bg-[var(--color-takka-gold)] hover:text-[var(--color-takka-navy)] rounded-full">
                 {t('nav.download')}
               </Button>
               <Button onClick={() => window.open('https://wa.me/201037230660', '_blank')} className="w-full bg-[var(--color-takka-gold)] text-[var(--color-takka-navy)] hover:bg-foreground hover:text-background rounded-full font-bold">
