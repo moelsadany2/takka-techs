@@ -11,29 +11,59 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AnimatedText } from "./AnimatedText";
 import { Magnetic } from "./Magnetic";
 
+// Assets imports
+import homeImg from '../assets/home.png';
+import branchesImg from '../assets/branches.png';
+import installmentsImg from '../assets/installments.png';
+import maintainceImg from '../assets/maintaince.png';
+import reportsImg from '../assets/reports.png';
+import employeeImg from '../assets/employee.png';
+import imeiHistoryImg from '../assets/imei_history.png';
+import trusryImg from '../assets/trusry.png';
+
 export function Showcase() {
   const { t, i18n } = useTranslation();
 
   const apps = [
     {
-      title: "ERP System",
-      desc: "Comprehensive business management solution",
-      image: "https://picsum.photos/seed/erp/800/600?blur=1"
+      title: "شاشة الكاشير والمبيعات",
+      desc: "نقطة بيع سريعة وسهلة الاستخدام",
+      image: homeImg
     },
     {
-      title: "E-Commerce App",
-      desc: "Modern mobile shopping experience",
-      image: "https://picsum.photos/seed/ecommerce/800/600?blur=1"
+      title: "إدارة الفروع",
+      desc: "سيطر على كل فروعك من مكان واحد",
+      image: branchesImg
     },
     {
-      title: "Healthcare Portal",
-      desc: "Smart clinic management system",
-      image: "https://picsum.photos/seed/health/800/600?blur=1"
+      title: "نظام الأقساط",
+      desc: "متابعة دقيقة للأقساط والمواعيد",
+      image: installmentsImg
     },
     {
-      title: "Logistics Dashboard",
-      desc: "Real-time tracking and analytics",
-      image: "https://picsum.photos/seed/logistics/800/600?blur=1"
+      title: "مركز الصيانة",
+      desc: "استلام وتسليم الأجهزة ومتابعة الفنيين",
+      image: maintainceImg
+    },
+    {
+      title: "التقارير والإحصائيات",
+      desc: "رؤية شاملة لأرباحك ومصروفاتك",
+      image: reportsImg
+    },
+    {
+      title: "شؤون الموظفين",
+      desc: "إدارة ورديات وصلاحيات فريق العمل",
+      image: employeeImg
+    },
+    {
+      title: "تتبع مسار الأجهزة (IMEI)",
+      desc: "تاريخ كامل لأي جهاز زار محلك",
+      image: imeiHistoryImg
+    },
+    {
+      title: "الخزينة والماليات",
+      desc: "حصر دقيق لكل حركة مالية بالنظام",
+      image: trusryImg
     }
   ];
 
